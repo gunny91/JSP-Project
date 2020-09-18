@@ -6,7 +6,6 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page import="java.net.URLEncoder" %>
 <%! SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분"); %>
 <%
 //세션의 값을 가져온다. 
@@ -36,7 +35,7 @@ bookTypes = bookStoreDAO.getBookTypes();
 BscodeDTO bookType = null;
 
 //한 페이지에서 보여줄 게시글의 개수를 정의한다.
-final int NUM_OF_PAGE = 2;
+final int NUM_OF_PAGE = 3;
 
 //현재 페이지의 값을 저장할 변수. 페이지 값이 없는 경우는 기본 1로 한다.
 int pageNumber = 1;
@@ -60,7 +59,6 @@ totalCount = bookStoreDAO.getBookCount(book_kind);
 //보여줄 데이터가 있으면 책 종류에 해당하는 모든 책의 정보를 가져온다.
 if(totalCount > 0) {
 	bookList = bookStoreDAO.getBooks(book_kind, startRow, NUM_OF_PAGE);
-	System.out.println("bookList size:" + bookList.size());
 }
 %>
 
@@ -162,11 +160,11 @@ if(totalCount < 1) {
 			<td><%=sdf.format(book.getReg_date()) %></td>
 			<td align=center>
 				<a href="bookUpdateForm.jsp?book_id=
-				<%=book.getBook_id()%>&book_kind=<%=URLEncoder.encode(book.getBook_kind(), "UTF-8")%>">수정</a>
+				<%=book.getBook_id()%>&book_kind=<%=book.getBook_kind()%>">수정</a>
 			</td>
 			<td align=center>
 				<a href="bookDeleteForm.jsp?book_id=
-				<%=book.getBook_id()%>&book_kind=<%=URLEncoder.encode(book.getBook_kind(), "UTF-8")%>">삭제</a>
+				<%=book.getBook_id()%>&book_kind=<%=book.getBook_kind()%>">삭제</a>
 			</td>
 		</tr>
 		<% } // End - for %>
@@ -186,21 +184,12 @@ if(totalCount < 1) {
 		//선택한 페이지번호가 pageBlock내에 있으면 startPage를 하단에 보여줄 번호의 맨 앞번호로 한다.
 		//현재페이지가 5, 페이지블럭이 3이라면 하단에는 [4][5][6]을 보여준다.
 		//??? pageNumber 가 1인 경우 0 나누기 3 문제??????
-		int startPage = (int)((pageNumber-1)/pageBlock)*pageBlock+1;
-		//int startPage = (int)((pageNumber-1)/NUM_OF_PAGE)*pageBlock+1;
+		int startPage = (int)((pageNumber-1)/NUM_OF_PAGE)*pageBlock+1;
 		int endPage   = startPage + pageBlock - 1;
 		
 		//계산한 endPage가 실제 가지고 있는 페이지 수보다 많으면 가장 마지막 페이지의 값을 endPage로 한다.
 		if(endPage > pageCount) endPage = pageCount;
-		System.out.println("Spage["+startPage+"]-Epage["+endPage+"]");
 		
-		//이전 페이지로 갈수있도록 한다.
-		//startPage가 pageBlock보다 큰 경우에는 [이전]을 보여준다.
-		//[이전]버튼을 누르면 현재 보고있는 화면의 startPage에서 pageBlock만큼 뺀 값이
-		//  다음 화면의 첫 페이지가 되도록 한다. pageNumber=startPage-pageBlock;
-		if(startPage > pageBlock) { %>
-			<a href="bookList.jsp?pageNumber=<%=startPage-pageBlock%>&book_kind=<%=book_kind%>">[이전]</a>
-		<% }
 		
 		//하단에 페이지 번호를 보여준다.
 		for(int num = startPage; num <= endPage; num++) { %>
@@ -208,12 +197,8 @@ if(totalCount < 1) {
 			pageNumber=<%=num%>&book_kind=<%=book_kind%>">[<%=num%>]</a>
 		<%}
 		
-		//[다음]버튼이 나타나는 경우
-		//화면에 보여줄 총 페이지 건수보다 endPage가 작은 경우만 [다음]버튼을 나타나게 한다.
-		if(endPage < pageCount) { %>
-			<a href="bookList.jsp?pageNumber=<%=startPage+pageBlock%>&book_kind=<%=book_kind%>">[다음]</a>
-		<% } 
-		} %>
+	}
+	%>
 	</h6>
 	
 
