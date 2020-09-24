@@ -64,6 +64,7 @@ count	= cartDAO.getListCount(buyer);
 			<tr class="info">
 				<td width= "50">번호</td>
 				<td width="300">책 제 목</td>
+				<td width= "50">이미지</td>
 				<td width="100">판매가격</td>
 				<td width="150">수량</td>
 				<td width="150">금액</td>
@@ -71,10 +72,12 @@ count	= cartDAO.getListCount(buyer);
 			<% //장바구니의 개수만큼 작업을 반복한다.
 			for(int i = 0; i < cartLists.size(); i++) {  
 				cartList = cartLists.get(i);
+				
 			%>
 			<tr>
 				<td><%=++number %></td>
 				<td><%=cartList.getBook_title() %></td>
+				<td><%=cartList.getBook_image() %></td>
 				<td><%=cartList.getBuy_price() %></td>
 				<td><%=cartList.getBuy_count() %></td>
 				<td><%=cartList.getBuy_price() * cartList.getBuy_count() %></td>
