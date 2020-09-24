@@ -313,7 +313,6 @@ function memberInsertCheckForm(memInsForm)
 //---------------------------------------------------------------------
 function memberUpDelCheckForm(memUpDelForm, selectVal)
 {
-	alert("0000");
 	if(!memUpDelForm.passwd.value) {
 		alert("비밀번호를 입력하십시오.0000");
 		memUpDelForm.passwd.focus();
@@ -408,7 +407,7 @@ function memberUpDelCheckForm(memUpDelForm, selectVal)
 			return false;
 		}
 	}
-	memUpDelForm.action = "userUpDelModalForm.jsp?mode=" + selectVal;
+	memUpDelForm.action = "memberUpDelModalForm.jsp?mode=" + selectVal;
 	memUpDelForm.submit();
 }
 

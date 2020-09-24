@@ -144,8 +144,137 @@ public class MemberDAO {
 		}
 	} // End - public void insertMember(CustomerDataBean member)
 	
-
+	//-----------------------------------------------------------------------------------------------------
+	// 회원 id에 해당하는 회원정보를 추출한다.
+	//-----------------------------------------------------------------------------------------------------
+	public MemberDTO getMember(String id) throws Exception {
+		//데이터 추출에 사용할 변수등을 준비한다.
+		Connection				conn	= null;
+		PreparedStatement		pstmt	= null;
+		ResultSet				rs		= null;
+		String					sql		= "";
+		MemberDTO				member	= null;
+		
+		try {
+			//DB와 연결한다.
+			conn 	= getConnection();
+			
+			//질문(Query)을 준비한다.
+			//WHERE id => 테이블의 컬럼명
+			sql  	= "SELECT * FROM member WHERE id = ?";
+			pstmt	= conn.prepareStatement(sql);
+			//질문에 포함할 조건(?) 등을 준비한다.
+			pstmt.setString(1, id); //id => 입력받은 파라미터 값
+			
+			//질문할 준비가 모두 끝나면 실행한다.
+			rs = pstmt.executeQuery();
+			
+			System.out.println("getMember pstmt:" + pstmt);
+			
+			if(rs.next()) {
+				//실행결과를 getMember를 호출한 곳에 넘겨줄 준비를 한다.
+				member = new MemberDTO();
+				
+				//rs.getString("id") 의 id => 테이블의 컬럼 명이다. 
+				member.setId		(rs.getString("id"));
+				member.setPasswd	(rs.getString(2));
+				member.setName		(rs.getString("name"));
+				member.setReg_date	(rs.getTimestamp("reg_date"));
+				member.setTel		(rs.getString(5));
+				member.setAddress	(rs.getString("address"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			//사용한 자원을 닫는다.
+			if(rs    != null) try {rs.close();    } catch(SQLException ex) {}
+			if(pstmt != null) try {pstmt.close(); } catch(SQLException ex) {}
+			if(conn  != null) try {conn.close();  } catch(SQLException ex) {}
+		}
+		//문제가 없으면 데이터를 호출한 곳에 넘겨준다.
+		return member;
+	} // End - public MemberDTO getMember(String id)
 	
+	//-----------------------------------------------------------------------------------------------------
+	// 회원 정보 수정
+	//-----------------------------------------------------------------------------------------------------
+     public void updateMember(MemberDTO member) throws Exception {
+    	 Connection conn = null;
+         PreparedStatement pstmt = null;
+       
+         try {
+        	 conn = getConnection();
+           
+             pstmt = conn.prepareStatement(
+               "update member set passwd=?,name=?,tel=?,address=? "+
+               "where id=?");
+             pstmt.setString(1, member.getPasswd());
+             pstmt.setString(2, member.getName());
+             pstmt.setString(3, member.getTel());
+             pstmt.setString(4, member.getAddress());
+             pstmt.setString(5, member.getId());
+           
+             pstmt.executeUpdate();
+         }catch(Exception ex) {
+             ex.printStackTrace();
+         }finally {
+             if (pstmt != null) 
+            	 try { pstmt.close(); } catch(SQLException ex) {}
+             if (conn != null) 
+            	 try { conn.close(); } catch(SQLException ex) {}
+         }
+     }
+   
+ 	//-----------------------------------------------------------------------------------------------------
+ 	//-----------------------------------------------------------------------------------------------------
+     public int deleteMember(String id, String passwd) throws Exception {
+         Connection conn = null;
+         PreparedStatement pstmt = null;
+         ResultSet rs= null;
+         String dbpasswd="";
+         int x=-1;
+         
+         try {
+			 conn = getConnection();
+
+             pstmt = conn.prepareStatement(
+           	  "select passwd from member where id = ?");
+             pstmt.setString(1, id);
+             rs = pstmt.executeQuery();
+           
+			 if(rs.next()){
+				 dbpasswd= rs.getString("passwd"); 
+				 if(dbpasswd.equals(passwd)){
+					 pstmt = conn.prepareStatement("delete from member where id=?");
+                     pstmt.setString(1, id);
+                     pstmt.executeUpdate();
+					 x= 1; //비밀번호가 맞은 경우
+				 }else
+					 x= 0; //비밀번호가 틀린 경우
+			 }
+         }catch(Exception ex) {
+             ex.printStackTrace();
+         }finally {
+             if (rs != null) 
+            	 try { rs.close(); } catch(SQLException ex) {}
+             if (pstmt != null) 
+            	 try { pstmt.close(); } catch(SQLException ex) {}
+             if (conn != null) 
+            	 try { conn.close(); } catch(SQLException ex) {}
+         }
+		 return x;
+     }
+
+	//-----------------------------------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------------------------------
 
 
 }
+
+
+
+
+
+
+
+

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="bookstore.shopping.MemberDAO" %>
+<%@ page import="bookstore.shopping.MemberDTO" %>
 <%@ page import="java.sql.Timestamp" %>
 
 <%
@@ -18,8 +19,9 @@ String address	= request.getParameter("address");
 <jsp:useBean id="member" scope="page"
            class="bookstore.shopping.MemberDTO">
 </jsp:useBean>
-
 <%
+//MemberDTO membe = new MemberDTO();
+
 member.setId(id);
 member.setPasswd(passwd);
 member.setName(name);

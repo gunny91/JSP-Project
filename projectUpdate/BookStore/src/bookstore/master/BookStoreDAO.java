@@ -405,8 +405,40 @@ public class BookStoreDAO
 	} // End - public void deleteBook(int bookId)
 	
 	//----------------------------------------------------------------------------------------------
+	// book_id에 해당하는 재고수량을 구하는 메서드
 	//----------------------------------------------------------------------------------------------
-
+	public int getBookIdCount(int bookId) throws Exception {
+		Connection			conn	= null;
+		PreparedStatement	pstmt	= null;
+		ResultSet			rs		= null;
+		String				sql		= "";
+		int	rtnCount	= 0; //재고수량을 넘겨줄 변수
+		
+		try {
+			//작업할 DB에 연결된 정보를 가져온다.
+			conn	= getConnection();
+			//질문할 내용을 작성한다.
+			sql		= "SELECT book_count FROM book WHERE book_id = ?";
+			pstmt	= conn.prepareStatement(sql);
+			pstmt.setInt(1, bookId);
+			
+			//쿼리문장을 실행시키고, 결과를 ResultSet에 담는다.
+			rs		= pstmt.executeQuery();
+			
+			//찾은 결과가 있으면 넘겨줄 변수에 저장한다.
+			if(rs.next()) {
+				//rtnCount = rs.getInt("book_count"); 컬럼명을 사용해도 같다.
+				rtnCount = rs.getInt(1);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if(rs    != null) try {rs.close();    } catch(SQLException ex) {}
+			if(pstmt != null) try {pstmt.close(); } catch(SQLException ex) {}
+			if(conn  != null) try {conn.close();  } catch(SQLException ex) {}
+		}
+		return rtnCount; //찾은 결과를 넘겨준다.
+	} // End - public int getBookIdCount(int bookId)
 
 
 } // End - class StoreBookDAO
