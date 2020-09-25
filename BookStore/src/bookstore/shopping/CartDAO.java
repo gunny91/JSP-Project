@@ -51,7 +51,7 @@ public class CartDAO {
 		PreparedStatement	pstmt		= null;
 		ResultSet			rs			= null;
 		String				sql			= "";
-		int				rtnCount	= 0;
+		int					rtnCount	= 0;
 		
 		try {
 			//작업할 DB에 연결된 정보를 가져온다.
@@ -188,51 +188,80 @@ public class CartDAO {
 	} // End - public List<CartDTO> getCart(String buyerID)
 	
 	//----------------------------------------------------------------------------------------------
+	// 선택한 하나의 장바구니만 부우기
 	//----------------------------------------------------------------------------------------------
-	
 	public void deleteList(int cart_id) throws Exception {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql= "delete from cart where cart_id=?";
+		Connection			conn	= null;
+		PreparedStatement	pstmt	= null;
+		String				sql		= "";
 		
 		try {
-			conn = getConnection();
-			pstmt = conn.prepareStatement(sql);
+			conn	= getConnection();
+			sql		= "DELETE FROM cart WHERE cart_id = ?";
+			pstmt	= conn.prepareStatement(sql);
 			pstmt.setInt(1, cart_id);
-			
 			pstmt.executeUpdate();
-					
-		}
-		finally {
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
 			if(pstmt != null) try {pstmt.close(); } catch(SQLException ex) {}
 			if(conn  != null) try {conn.close();  } catch(SQLException ex) {}
 		}
-		
-	}	
-		public void deleteAll(String buyer) throws Exception {
-			
-			Connection conn = null;
-			PreparedStatement pstmt = null;
-			String sql= "delete from cart where buyer=?";
-			
-			try {
-				conn = getConnection();
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, buyer);
-				
-				
-			 int result=	pstmt.executeUpdate();
-			if(result>0) {System.out.println(result+"Deleted");}
-			else {System.out.println("Have in trouble with deleting");}
-			 
-			}
-			finally {
-				if(pstmt != null) try {pstmt.close(); } catch(SQLException ex) {}
-				if(conn  != null) try {conn.close();  } catch(SQLException ex) {}
-			}
-			
-		}
+	} // public void deleteList(int cart_id)
 	
+	//----------------------------------------------------------------------------------------------
+	// buyer에 해당하는 장바구니를 모두 비운다.
+	//----------------------------------------------------------------------------------------------
+	public void deleteAll(String buyer) throws Exception {
+		Connection			conn	= null;
+		PreparedStatement	pstmt	= null;
+		String				sql		= "";
+		
+		try {
+			conn	= getConnection();
+			sql		= "DELETE FROM cart WHERE buyer = ?";
+			pstmt	= conn.prepareStatement(sql);
+			pstmt.setString(1, buyer);
+			
+			int rtnCount = pstmt.executeUpdate();
+			if(rtnCount > 0) {
+				System.out.println(rtnCount + "건이 삭제되었습니다.");
+			} else {
+				System.out.println("삭제하는데 문제가 발생하였습니다.");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if(pstmt != null) try {pstmt.close(); } catch(SQLException ex) {}
+			if(conn  != null) try {conn.close();  } catch(SQLException ex) {}
+		}
+	} // End - public void deleteAll(String buyer)
+	
+	//----------------------------------------------------------------------------------------------
+	// 장바구니에 담겨져 있는 수량을 변경한다.
+	//----------------------------------------------------------------------------------------------
+	public void updateCount(int cart_id, int count) throws Exception {
+		Connection			conn	= null;
+		PreparedStatement	pstmt	= null;
+		String				sql		= "";
+		
+		try {
+			conn	= getConnection();
+			sql		= "UPDATE cart SET buy_count=? WHERE cart_id=?";
+			pstmt	= conn.prepareStatement(sql);
+			pstmt.setInt(1, count);
+			pstmt.setInt(2, cart_id);
+			pstmt.executeUpdate();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if(pstmt != null) try {pstmt.close(); } catch(SQLException ex) {}
+			if(conn  != null) try {conn.close();  } catch(SQLException ex) {}
+		}
+	} // End - public void updateCount(int cart_id, int count)
+	
+	//----------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------
 	
 } // End - public class CartDAO
 
