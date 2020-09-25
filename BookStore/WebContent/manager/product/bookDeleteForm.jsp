@@ -60,12 +60,12 @@ if(managerId==null || managerId.equals("")){
 <script>
 $(function() {
 	$("#btn_Del").on("click", function() {
-		var result = confirm('Are you sure you want to do this?'); 
-		if(result) { //yes 
+		var result = confirm('정말 삭제 하시겠습니까?'); 
+		if(result) { //true 
 			location.replace('bookDeletePro.jsp?book_id=<%= book_id%>&book_kind=<%=URLEncoder.encode(book_kind, "UTF-8")%>'); 
 			// location.replace('bookDeletePro.jsp?book_id=<%= book_id%>&book_kind=<%=book_kind%>'); 
-		} else { //no 
-			location.href='bookList.jsp?book_kind=<%=book_kind%>';
+		} else { //flase
+			location.href='bookList.jsp';
 		} 
 	});
 });

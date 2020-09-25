@@ -7,7 +7,7 @@ session.invalidate();
 PrintWriter pw = response.getWriter();
 pw.println("<script>");
 pw.println("alert('로그아웃이 되었습니다.')");
-pw.println("location.href='../managerMain.jsp'");
+pw.println("location.href='../shopMain.jsp'");
 pw.println("</script>");
 %>
 
