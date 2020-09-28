@@ -143,43 +143,39 @@ bankLists	= buyDAO.getAccount();
 			</div>
 		</div>
 		<div class="form-group">
-			
 			<div class="col-sm-offset-2 col-sm-3">
 				<h3 align="center">배송지 정보</h3>
 			</div>
-			
-			<div class="form-group">
-				<label class="control-label col-sm-2">이름</label>
-				<div class="col-sm-3">
-					<input type="text" class="form-control" id="deliveryName" name="deliveryName" value="<%=member.getName()%>"/>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="control-label col-sm-2">전화번호</label>
-				<div class="col-sm-3">
-					<input type="text" class="form-control" id="deliveryTel" name="deliveryTel" value="<%=member.getTel()%>"/>
-				</div>
-			</div>
-		
-			<div class="form-group">
-				<label class="control-label col-sm-2">주소 </label>
-				<div class="col-sm-3">
-					<input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress" value="<%=member.getAddress()%>"/>
-				</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2">이  름</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="deliveryName" name="deliveryName"
+					value="<%=member.getName()%>"/>
 			</div>
 		</div>
 		<div class="form-group">
-			<div class="col-sm-offest-2 col-sm-4">
-				<input class="btn btn-primary btn-sm" type="submit" value="comfirm">&nbsp;&nbsp;
-				<input class="btn btn-primary btn-sm" type="submit" value="Cancel" 
-					onclick="javascript:window.location='cartList.jsp?book_kind=all'"/>&nbsp;&nbsp;
-				
+			<label class="control-label col-sm-2">전화번호</label>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="deliveryTel" name="deliveryTel"
+					value="<%=member.getTel()%>"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2">주  소</label>
+			<div class="col-sm-6">
+				<input type="text" class="form-control" id="deliveryAddress" name="deliveryAddress"
+					value="<%=member.getAddress()%>"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-4">
+				<input class="btn btn-primary btn-sm" type="submit" value="구매확인">&nbsp;&nbsp;
+				<input class="btn btn-danger btn-sm" type="submit" value="취소"
+					onclick="javascript:window.location='cartList.jsp?book_kind=all'"/>
 			</div>
 		</div>
 	</form>
-
-
 </div>
 
 
