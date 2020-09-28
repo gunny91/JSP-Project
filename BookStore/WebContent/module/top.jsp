@@ -73,7 +73,7 @@ if(session.getAttribute("id") == null)
 				<a href="../shopping/cartList.jsp?book_kind=all" class="btn btn-primary" aria-pressed="true">
 					<span class="glyphicon glyphicon-shopping-cart"></span> 쇼핑계속하기</a>
 					
-				<a href="../shopping/buyList.jsp" class="btn btn-warning" aria-passed="true">
+				<a href="../shopping/buyForm.jsp" class="btn btn-warning" aria-passed="true">
 					<span class="glyphicon glyphicon-list-alt"></span> 구매목록보기</a>
 					
 				<a href="../shopping/member/memberUpDelForm.jsp" class="btn btn-info" aria-pressed="true">
