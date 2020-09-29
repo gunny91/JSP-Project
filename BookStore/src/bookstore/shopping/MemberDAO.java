@@ -54,7 +54,7 @@ public class MemberDAO {
 		try {
 			conn  = getConnection();
 			
-			sql   = "SELECT passwd FROM member WHERE id =?";
+			sql   = "SELECT passwd FROM member WHERE id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setNString(1, id);
 			rs    = pstmt.executeQuery();

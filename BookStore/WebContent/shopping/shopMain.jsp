@@ -18,6 +18,17 @@
 		<div class="col-sm-2">
 			<jsp:include page="intro.jsp"/>
 		</div>
+		<div class="col-sm-8">
+			<jsp:include page="intro.jsp"/>
+		</div>
+		<div class="col-sm-2">
+			<jsp:include page="intro.jsp"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<jsp:include page="intro.jsp"/>
+		</div>
 	</div>
 </div>	
 

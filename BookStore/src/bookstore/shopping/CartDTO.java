@@ -7,7 +7,7 @@ public class CartDTO {
 	private	int		book_id;	//장바구니에 담은 책의 아이디
 	private	String	book_title;	//장바구니에 담은 책의 제목
 	private	int		buy_price;	//장바구니에 담은 책의 구매가
-	private	int	buy_count;	//장바구니에 담은 책의 수량
+	private	int		buy_count;	//장바구니에 담은 책의 수량
 	private	String	book_image;	//장바구니에 담은 책의 이미지명
 	
 	public int getCart_id() {
