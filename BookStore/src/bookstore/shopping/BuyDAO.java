@@ -327,71 +327,69 @@ public class BuyDAO {
 	
 	
 	
+	//----------------------------------------------------------------------------------------------
+	// 입력받은 년도에 해당하는 판매수량을 월별(12건), 총수량의 값을 추출하는 메서드
+	//----------------------------------------------------------------------------------------------
 	public BuyMonthDTO buyMonth(String year) throws Exception {
-		
-		Connection			conn 		= null;
+		Connection			conn		= null;
 		PreparedStatement	pstmt		= null;
 		ResultSet			rs			= null;
-		BuyMonthDTO months =new BuyMonthDTO();
-		String				sql			= "select ifnull(sum(case date_format(buy.buy_date, '%m') when '01' then buy_count end),0) as 'm01',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '02' then buy_count end),0) as 'm02',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '03' then buy_count end),0) as 'm03',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '04' then buy_count end),0) as 'm04',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '05' then buy_count end),0) as 'm05',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '06' then buy_count end),0) as 'm06',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '07' then buy_count end),0) as 'm07',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '08' then buy_count end),0) as 'm08',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '09' then buy_count end),0) as 'm09',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '10' then buy_count end),0) as 'm10',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '11' then buy_count end),0) as 'm11',"
-												+"ifnull(sum(case date_format(buy.buy_date, '%m') when '12' then buy_count end),0) as 'm12',"
-												+"ifnull(sum(buy_count),0) as 'tot' "
-				 								+"from buy where date_format(buy.buy_date,'%Y') = '?'";
+		String				sql			= "";
+		BuyMonthDTO			buyMonth	= null;
+		
 		try {
+			conn	= getConnection();
 			
-			conn = getConnection();
-			pstmt =conn.prepareStatement(sql);
+			sql	 = "SELECT ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '01'  THEN buy_count END), 0) AS 'm01', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '02'  THEN buy_count END), 0) AS 'm02', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '03'  THEN buy_count END), 0) AS 'm03', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '04'  THEN buy_count END), 0) AS 'm04', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '05'  THEN buy_count END), 0) AS 'm05', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '06'  THEN buy_count END), 0) AS 'm06', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '07'  THEN buy_count END), 0) AS 'm07', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '08'  THEN buy_count END), 0) AS 'm08', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '09'  THEN buy_count END), 0) AS 'm09', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '10'  THEN buy_count END), 0) AS 'm10', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '11'  THEN buy_count END), 0) AS 'm11', ";
+			sql += "IFNULL(SUM(CASE DATE_FORMAT(buy.buy_date, '%m') WHEN '12'  THEN buy_count END), 0) AS 'm12', ";
+			sql += "IFNULL(SUM(buy_count), 0) AS 'tot' ";
+			sql += "FROM buy ";
+			sql += "WHERE DATE_FORMAT(buy.buy_date, '%Y') = ?";
+			
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, year);
-			rs =pstmt.executeQuery();
+			rs    = pstmt.executeQuery();
 			
-			
-			while(rs.next()) {
+			if(rs.next() ) {
+				buyMonth = new BuyMonthDTO();
 				
-				
-				months.setMonth01(rs.getInt("m01"));
-				months.setMonth02(rs.getInt("m02"));
-				months.setMonth03(rs.getInt("m03"));
-				months.setMonth04(rs.getInt("m04"));
-				months.setMonth05(rs.getInt("m05"));
-				months.setMonth06(rs.getInt("m06"));
-				months.setMonth07(rs.getInt("m07"));
-				months.setMonth08(rs.getInt("m08"));	
-				months.setMonth09(rs.getInt("m09"));
-				months.setMonth10(rs.getInt("m10"));
-				months.setMonth11(rs.getInt("m11"));
-				months.setMonth12(rs.getInt("m12"));
-				months.setTotal(rs.getInt("tot"));
+				//buyMonth에 select한 값을 넣는다.
+				buyMonth.setMonth01(rs.getInt("m01"));
+				buyMonth.setMonth02(rs.getInt("m02"));
+				buyMonth.setMonth03(rs.getInt("m03"));
+				buyMonth.setMonth04(rs.getInt("m04"));
+				buyMonth.setMonth05(rs.getInt("m05"));
 
+				buyMonth.setMonth06(rs.getInt("m06"));
+				buyMonth.setMonth07(rs.getInt("m07"));
+				buyMonth.setMonth08(rs.getInt("m08"));
+				buyMonth.setMonth09(rs.getInt("m09"));
+				buyMonth.setMonth10(rs.getInt("m10"));
+
+				buyMonth.setMonth11(rs.getInt("m11"));
+				buyMonth.setMonth12(rs.getInt("m12"));
+				buyMonth.setTotal  (rs.getInt("tot"));
 			}
-			
-			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if(rs    != null) try {rs.close();    } catch(SQLException ex) {}
+			if(pstmt != null) try {pstmt.close(); } catch(SQLException ex) {}
+			if(conn  != null) try {conn.close();  } catch(SQLException ex) {}
 		}
-		catch (Exception ex) {
-				ex.printStackTrace();
-			} finally {
-				if(rs    != null) try {rs.close();    } catch(SQLException ex) {}
-				if(pstmt != null) try {pstmt.close(); } catch(SQLException ex) {}
-				if(conn  != null) try {conn.close();  } catch(SQLException ex) {}
-			}
-		
-		 
-		
-		return months;
-	}
-	
-	//----------------------------------------------------------------------------------------------
-	//----------------------------------------------------------------------------------------------
-	
+		return buyMonth;
+	} // End - public BuyMonthDTO buyMonth(String year)	
 	
 } // End - public class BuyDAO
 
