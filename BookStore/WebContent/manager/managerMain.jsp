@@ -53,8 +53,20 @@ if(managerId == null || managerId.equals("")) {
 						<ul class="dropdown-menu">
 							<li><a href="product/bookRegisterForm.jsp">상품등록</a></li>
 							<li><a href="product/bookList.jsp?book_kind=all">상품목록(수정/삭제)</a></li>
+							
 						</ul>
 					</li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							Statistic Manage <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="statistic/monthStatsForm.jsp">Monthly Selling List (꺽은선)</a></li>
+							<li><a href="statistic/monthBarStatsFrom.jsp">Monthly Selling List (막대)</a></li>
+							
+						</ul>
+					
+					</li>
+						
 					<li><a href="logon/managerLogout.jsp">로그아웃</a>
 				</ul>
 			</div>

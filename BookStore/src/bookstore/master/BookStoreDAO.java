@@ -57,14 +57,14 @@ public class BookStoreDAO
 		try {
 			conn  = getConnection();
 			
-			sql   = "SELECT managerPasswd FROM manager WHERE managerId = ?";
+			sql   = "SELECT managerPw FROM manager WHERE managerId = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setNString(1, id);
 			rs    = pstmt.executeQuery();
 			
 			if(rs.next()) { //id에 해당하는 자료가 있다면
 				//찾은 비밀번호를 가지고 전페이지에서 넘겨준 비밀번호와 비교한다.
-				dbpasswd = rs.getString("managerPasswd");
+				dbpasswd = rs.getString("managerPw");
 				
 				if(dbpasswd.equals(passwd)) { //비밀번호가 일치하면
 					rtnVal = 1;	//인증에 성공

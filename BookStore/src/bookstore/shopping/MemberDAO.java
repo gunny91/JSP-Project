@@ -56,7 +56,7 @@ public class MemberDAO {
 			
 			sql   = "SELECT passwd FROM member WHERE id = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setNString(1, id);
+			pstmt.setString(1, id);
 			rs    = pstmt.executeQuery();
 			
 			if(rs.next()) { //id에 해당하는 자료가 있다면
