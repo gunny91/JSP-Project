@@ -61,7 +61,7 @@ if(managerId == null || managerId.equals("")) {
 							Statistic Manage <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="statistic/monthStatsForm.jsp">Monthly Selling List (꺽은선)</a></li>
-							<li><a href="statistic/monthBarStatsFrom.jsp">Monthly Selling List (막대)</a></li>
+							<li><a href="statistic/monthBarStatsForm.jsp">Monthly Selling List (막대)</a></li>
 							
 						</ul>
 					
